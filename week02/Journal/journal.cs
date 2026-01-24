@@ -5,6 +5,7 @@ using System.IO;
 public class Journal
 {
     private List<Entry> _entries = new List<Entry>();
+    private Random _random = new Random();
 
     private List<string> _prompts = new List<string>()
     {
@@ -17,11 +18,11 @@ public class Journal
 
     public void Run()
     {
-        string choice = "";
+        string option = "";
 
-        while (choice != "5")
+        while (option != "5")
         {
-            Console.WriteLine("\nJournal Menu:");
+            Console.WriteLine("\nJournal Menu");
             Console.WriteLine("1. Write new entry");
             Console.WriteLine("2. Display journal");
             Console.WriteLine("3. Save journal to file");
@@ -29,47 +30,47 @@ public class Journal
             Console.WriteLine("5. Quit");
             Console.Write("Choose an option: ");
 
-            choice = Console.ReadLine();
+            option = Console.ReadLine();
 
-            if (choice == "1")
-                AddEntry();
-            else if (choice == "2")
-                DisplayEntries();
-            else if (choice == "3")
-                SaveToFile();
-            else if (choice == "4")
-                LoadFromFile();
+            if (option == "1")
+                WriteEntry();
+            else if (option == "2")
+                DisplayJournal();
+            else if (option == "3")
+                SaveJournal();
+            else if (option == "4")
+                LoadJournal();
         }
     }
 
-    public void AddEntry()
+    private void WriteEntry()
     {
-        Random rand = new Random();
-        string prompt = _prompts[rand.Next(_prompts.Count)];
+        string prompt = _prompts[_random.Next(_prompts.Count)];
 
         Console.WriteLine(prompt);
         Console.Write("> ");
         string response = Console.ReadLine();
 
         Entry entry = new Entry();
-        entry._date = DateTime.Now.ToShortDateString();
-        entry._prompt = prompt;
-        entry._response = response;
+        entry.Date = DateTime.Now.ToShortDateString();
+        entry.Prompt = prompt;
+        entry.Response = response;
 
         _entries.Add(entry);
     }
 
-    public void DisplayEntries()
+    private void DisplayJournal()
     {
         foreach (Entry entry in _entries)
         {
-            Console.WriteLine($"\nDate: {entry._date}");
-            Console.WriteLine($"Prompt: {entry._prompt}");
-            Console.WriteLine($"Response: {entry._response}");
+            Console.WriteLine("\n--------------------");
+            Console.WriteLine($"Date: {entry.Date}");
+            Console.WriteLine($"Prompt: {entry.Prompt}");
+            Console.WriteLine($"Response: {entry.Response}");
         }
     }
 
-    public void SaveToFile()
+    private void SaveJournal()
     {
         Console.Write("Enter filename: ");
         string filename = Console.ReadLine();
@@ -78,15 +79,23 @@ public class Journal
         {
             foreach (Entry entry in _entries)
             {
-                writer.WriteLine($"{entry._date}|{entry._prompt}|{entry._response}");
+                writer.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Response}");
             }
         }
+
+        Console.WriteLine("Journal saved.");
     }
 
-    public void LoadFromFile()
+    private void LoadJournal()
     {
         Console.Write("Enter filename: ");
         string filename = Console.ReadLine();
+
+        if (!File.Exists(filename))
+        {
+            Console.WriteLine("File not found.");
+            return;
+        }
 
         _entries.Clear();
 
@@ -97,11 +106,13 @@ public class Journal
             string[] parts = line.Split("|");
 
             Entry entry = new Entry();
-            entry._date = parts[0];
-            entry._prompt = parts[1];
-            entry._response = parts[2];
+            entry.Date = parts[0];
+            entry.Prompt = parts[1];
+            entry.Response = parts[2];
 
             _entries.Add(entry);
         }
+
+        Console.WriteLine("Journal loaded.");
     }
 }

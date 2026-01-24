@@ -2,8 +2,7 @@ using System;
 
 public class Entry
 {
-    public string _Date;
-    public string _Prompt; 
-    public string _Response;
-
+    public string Date;
+    public string Prompt;
+    public string Response;
 }
