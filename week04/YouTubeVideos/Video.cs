@@ -4,16 +4,16 @@ namespace YouTubeVideos
 {
     public class Video
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public int Length { get; set; } // Length in seconds
+        private string _title;
+        private string _author;
+        private int _length; // Length in seconds
         private List<Comment> _comments = new List<Comment>();
 
         public Video(string title, string author, int length)
         {
-            Title = title;
-            Author = author;
-            Length = length;
+            _title = title;
+            _author = author;
+            _length = length;
         }
 
         public void AddComment(Comment comment)
@@ -30,5 +30,9 @@ namespace YouTubeVideos
         {
             return _comments;
         }
+
+        public string GetTitle() => _title;
+        public string GetAuthor() => _author;
+        public int GetLength() => _length;
     }
 }
