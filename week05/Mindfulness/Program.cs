@@ -1,3 +1,14 @@
+/* CREATIVITY AND EXCEEDING REQUIREMENTS:
+    1. Strict File Organization: Every class is in its own file named exactly after the class, 
+       ensuring 100% adherence to the Style and Abstraction requirements.
+    2. Input Validation: Added logic to handle user input for durations and menu choices 
+       to prevent program crashes.
+    3. Enhanced Spinner: The spinner animation uses a modular approach in the base class 
+       so it can be easily adjusted across all activities from one location.
+*/
+
+
+
 using System;
 
 class Program
